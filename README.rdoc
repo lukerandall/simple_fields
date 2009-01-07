@@ -1,6 +1,6 @@
 = Simple Fields
 Simple fields is a really simple form helper method. It's more than likely not going to be useful to anyone but me, since it is little more than a helper method to create a field with a label and optionally, a description and popup explanation.
 
-It does not try to figure out the field type you want  -- you need to pass it a +:field_type+ if you need it to be something other than a text field.
+It does not try to figure out the field type you want  -- you need to pass it a +field_type+ if you need it to be something other than a text field.
 
 It facilitates creating nice, clean forms using very little code.
