@@ -10,11 +10,13 @@ module SimpleFields
     def field(field_name, options = {})
       options.reverse_merge! :field_type => :text_field, :label => nil, :class => nil
       key = "#{self.object_name}_#{field_name}_description".to_sym
+      field_errors = self.object.errors.on(field_name).to_a.to_sentence if self.object
       html = []
       html << "<p>"
       html << "\n"
       html << self.label(*(options[:label] ? [field_name, options[:label]] : [field_name]))
       html << "\n"
+      html << @template.content_tag(:span, field_errors, :class => 'errorDescription') if field_errors
       html << self.send(options[:field_type], field_name, :class => options[:class])
       html << tooltip(field_name)
       html << "\n"
