@@ -48,7 +48,7 @@ module SimpleFields
 
     # Determines if a localized string for +key+ exists
     def localization_exists(key)
-      @template.t(key) != '-Needs definition-'
+      @template.t(key, :default => 'not_found') != 'not_found'
     end
   end
 end
