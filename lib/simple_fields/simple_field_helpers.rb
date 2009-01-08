@@ -8,7 +8,8 @@ module SimpleFields
     # the default label, and +class+ to provide an HTML class.
     # The description and explanation lookup uses the I18n gem (which ships with Rails >= 2.2)
     def field(field_name, options = {})
-      options.reverse_merge! :field_type => :text_field, :label => nil, :class => nil
+      options.reverse_merge! :field_type => :text_field, :label => nil, :class => nil, :options => {}
+      options[:options][:class] = options[:class] if options[:class]
       key = "#{self.object_name}_#{field_name}_description".to_sym
       field_errors = self.object.errors.on(field_name).to_a.to_sentence if self.object
       html = []
@@ -17,7 +18,11 @@ module SimpleFields
       html << self.label(*(options[:label] ? [field_name, options[:label]] : [field_name]))
       html << "\n"
       html << @template.content_tag(:span, field_errors, :class => 'errorDescription') if field_errors
-      html << self.send(options[:field_type], field_name, :class => options[:class])
+      if options[:field_type].to_sym == :select
+        html << self.send(options[:field_type], field_name, options[:choices], options[:options])
+      else
+        html << self.send(options[:field_type], field_name, options[:options])
+      end
       html << tooltip(field_name)
       html << "\n"
       html << @template.content_tag(:span, @template.t(key), :class => 'description') if localization_exists(key)
